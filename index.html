@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DevOps 00 - Publicacion web en AWS S3</title>
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">Practica DevOps 00</p>
+        <h1>Publicacion web estatica en AWS S3</h1>
+        <p class="lead">
+          Proyecto creado con Codex, Terraform y AWS CLI para publicar una pagina
+          estatica en un bucket S3 gestionado como infraestructura como codigo.
+        </p>
+      </div>
+      <img class="hero-visual" src="assets/s3-devops.svg" alt="Diagrama visual de una web estatica desplegada en Amazon S3">
+    </header>
+
+    <main>
+      <section class="student-panel" aria-labelledby="student-title">
+        <h2 id="student-title">Alumno</h2>
+        <p>David</p>
+      </section>
+
+      <section class="grid" aria-label="Conceptos principales">
+        <article>
+          <h2>Terraform</h2>
+          <p>
+            Terraform permite definir recursos cloud en archivos de codigo.
+            En esta practica se utiliza para declarar y gestionar el bucket S3.
+          </p>
+        </article>
+
+        <article>
+          <h2>Amazon S3</h2>
+          <p>
+            Amazon S3 almacena objetos como HTML, CSS, JavaScript e imagenes.
+            Con la configuracion adecuada tambien puede servir una web estatica.
+          </p>
+        </article>
+
+        <article>
+          <h2>MCP</h2>
+          <p>
+            MCP conecta asistentes de IA con herramientas externas. En este
+            flujo Codex trabaja sobre los archivos del proyecto y valida cambios.
+          </p>
+        </article>
+      </section>
+
+      <section class="status-panel" aria-labelledby="status-title">
+        <div>
+          <h2 id="status-title">Estado del despliegue</h2>
+          <p>
+            Bucket objetivo:
+            <strong id="bucket-name">devops-prueba-david-2026-v2</strong>
+          </p>
+        </div>
+        <button id="check-button" type="button">Validar web</button>
+      </section>
+
+      <section class="validation" aria-labelledby="validation-title">
+        <h2 id="validation-title">Validacion final</h2>
+        <ul id="validation-list">
+          <li data-state="pending">Terraform gestiona el bucket S3.</li>
+          <li data-state="pending">La web contiene HTML, CSS, JavaScript y recurso visual.</li>
+          <li data-state="pending">Los archivos se pueden sincronizar con AWS CLI.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>Region AWS: us-east-1 · Infraestructura como codigo con Terraform</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
