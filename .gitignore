@@ -1,0 +1,38 @@
+# Terraform local state and cache
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform variables and plans that may contain sensitive values
+*.tfvars
+*.tfvars.json
+*.tfplan
+plan.out
+
+# AWS credentials and local environment files
+.aws/
+credentials
+config
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Editor and OS noise
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# Local logs
+*.log
