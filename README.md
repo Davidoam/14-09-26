@@ -23,6 +23,8 @@ AWS CLI.
 |   +-- app.js
 +-- assets/
 |   +-- s3-devops.svg
+|   +-- aws-s3-evidence.png
+|   +-- aws-vpc-evidence.png
 +-- CODEX.md
 +-- main.tf
 +-- README.md
@@ -94,6 +96,27 @@ Comprobación de archivos:
 aws s3 ls s3://devops-prueba-david-2026-v2 --recursive --region us-east-1
 ```
 
+## Resultado del despliegue
+
+Los archivos estáticos se subieron correctamente con AWS CLI:
+
+- `index.html`
+- `css/styles.css`
+- `js/app.js`
+- `assets/s3-devops.svg`
+
+Terraform no pudo completar `apply` porque AWS Academy bloqueó la lectura de la
+configuración de Object Lock del bucket durante el refresco del estado:
+
+```text
+AccessDenied: not authorized to perform s3:GetBucketObjectLockConfiguration
+with an explicit deny in a service control policy
+```
+
+Esto queda documentado como una restricción del entorno AWS Academy, no como un
+error de los archivos de la web. Las capturas recortadas incluidas en `assets/`
+muestran el bucket con los archivos publicados y la VPC de prueba disponible.
+
 ## Log de cambios
 
 - Se eliminó `deploy-site.ps1` y todas sus referencias.
@@ -106,6 +129,7 @@ aws s3 ls s3://devops-prueba-david-2026-v2 --recursive --region us-east-1
 - Se añadió `CODEX.md` con pautas para próximos mensajes.
 - Se reintrodujo la configuración estrictamente necesaria para publicar por HTTP
   en S3 cuando el usuario pidió desplegar la web por HTTP.
+- Se añadieron capturas recortadas de S3 y VPC como evidencias visuales.
 
 ## Validación
 
