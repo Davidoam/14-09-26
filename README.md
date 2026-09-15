@@ -1,14 +1,14 @@
-# DEVOPS 00 - Publicacion web estatica en AWS S3 con IA + MCP
+# DEVOPS 00 - Publicación web estática en AWS S3 con IA + MCP
 
 Alumno: David
 
 Bucket S3: `devops-prueba-david-2026-v2`
 
-Region: `us-east-1`
+Región: `us-east-1`
 
 ## Objetivo
 
-Crear una aplicacion web estatica y desplegar sus archivos en Amazon S3. La
+Crear una aplicación web estática y desplegar sus archivos en Amazon S3. La
 infraestructura se gestiona con Terraform y los archivos de la web se suben con
 AWS CLI.
 
@@ -23,23 +23,25 @@ AWS CLI.
 |   +-- app.js
 +-- assets/
 |   +-- s3-devops.svg
+|   +-- aws-s3-evidence.png
+|   +-- aws-vpc-evidence.png
++-- CODEX.md
 +-- main.tf
 +-- README.md
 ```
 
 ## IA y MCP
 
-La practica menciona Gemini CLI o Claude Code. En este proyecto se interpreta
-esa herramienta como Codex, que ha trabajado directamente sobre los archivos del
+La práctica menciona Gemini CLI o Claude Code. En este proyecto se interpreta
+esa herramienta como Codex, que trabaja directamente sobre los archivos del
 proyecto desde el entorno de desarrollo.
 
-La integracion MCP funcional queda representada por el flujo de trabajo del
-asistente conectado a herramientas locales para leer, modificar y validar el
-proyecto.
+La integración MCP queda representada por el flujo de trabajo del asistente
+conectado a herramientas locales para leer, modificar y validar el proyecto.
 
 ## Terraform
 
-Comandos usados o previstos:
+Comandos principales:
 
 ```powershell
 terraform init
@@ -50,72 +52,125 @@ terraform apply
 terraform state list
 ```
 
-El bucket debe aparecer en el estado:
+El archivo `main.tf` se mantiene mínimo, con:
+
+- proveedor AWS en `us-east-1`;
+- bucket S3 `devops-prueba-david-2026-v2`;
+- configuración de hosting web estático para publicar por HTTP;
+- política de lectura pública para los objetos del sitio;
+- VPC de prueba `10.0.0.0/16`.
+
+El bucket debe aparecer en el estado de Terraform:
 
 ```text
 aws_s3_bucket.bucket_prueba
 ```
 
+La política pública y la configuración de hosting son necesarias para que el
+sitio sea accesible mediante el endpoint HTTP de S3. Si AWS Academy bloquea
+alguna operación, se debe documentar el error exacto.
+
 ## AWS CLI
 
-Antes de desplegar:
+Antes de subir archivos, las credenciales temporales del Learner Lab deben estar
+cargadas en PowerShell. La comprobación de identidad es:
 
 ```powershell
 aws sts get-caller-identity --region us-east-1
 ```
 
-Resultado observado durante esta validacion:
-
-```text
-NoCredentials: Unable to locate credentials
-```
-
-Esto indica que las credenciales temporales del Learner Lab no estaban cargadas
-en la terminal en el momento de la comprobacion.
-
-Despliegue de los archivos estaticos:
+Despliegue manual recomendado de los archivos estáticos:
 
 ```powershell
-aws s3 sync . s3://devops-prueba-david-2026-v2 `
-  --exclude ".terraform/*" `
-  --exclude "terraform.tfstate*" `
-  --exclude ".terraform.lock.hcl" `
-  --exclude "main.tf" `
-  --exclude "README.md" `
-  --region us-east-1
+terraform apply -auto-approve
+aws s3 cp .\index.html s3://devops-prueba-david-2026-v2/index.html --region us-east-1
+aws s3 sync .\css s3://devops-prueba-david-2026-v2/css --delete --region us-east-1
+aws s3 sync .\js s3://devops-prueba-david-2026-v2/js --delete --region us-east-1
+aws s3 sync .\assets s3://devops-prueba-david-2026-v2/assets --delete --region us-east-1
+terraform output s3_website_endpoint
 ```
 
-Comprobacion de archivos:
+Comprobación de archivos:
 
 ```powershell
 aws s3 ls s3://devops-prueba-david-2026-v2 --recursive --region us-east-1
 ```
 
-## Hosting web S3
+## Resultado del despliegue
 
-Terraform declara la configuracion de website hosting para usar `index.html`
-como documento principal. Si AWS Academy permite la configuracion publica, el
-endpoint se obtiene con:
+Los archivos estáticos se subieron correctamente con AWS CLI:
 
-```powershell
-terraform output s3_website_endpoint
+- `index.html`
+- `css/styles.css`
+- `js/app.js`
+- `assets/s3-devops.svg`
+
+Terraform no pudo completar `apply` porque AWS Academy bloqueó la lectura de la
+configuración de Object Lock del bucket durante el refresco del estado:
+
+```text
+AccessDenied: not authorized to perform s3:GetBucketObjectLockConfiguration
+with an explicit deny in a service control policy
 ```
 
-Si aparece `AccessDenied` o `explicit deny in a service control policy`, se debe
-documentar como restriccion del Learner Lab.
+Esto queda documentado como una restricción del entorno AWS Academy, no como un
+error de los archivos de la web. Las capturas recortadas incluidas en `assets/`
+muestran el bucket con los archivos publicados y la VPC de prueba disponible.
 
-## Validacion final
+## Matriz de cumplimiento
 
-| Estado | Significado |
-| --- | --- |
-| Comprobado | El punto se ha verificado correctamente. |
-| Error menor | El planteamiento es correcto, pero falta una comprobacion externa o hay una limitacion no critica. |
-| Error grave | El punto impide cumplir el resultado minimo obligatorio. |
-
-| Punto | Estado | Observacion |
+| Requisito | Evidencia | Estado |
 | --- | --- | --- |
-| Bucket S3 gestionado por Terraform | Comprobado | `terraform state list` muestra `aws_s3_bucket.bucket_prueba`. |
-| Proyecto web con HTML, CSS, JS y recurso visual | Comprobado | Existen `index.html`, `css/styles.css`, `js/app.js` y `assets/s3-devops.svg`. |
-| Hosting S3 declarado en Terraform | Comprobado | `main.tf` incluye `aws_s3_bucket_website_configuration`. |
-| Despliegue con AWS CLI | Error menor | No se pudo ejecutar desde esta terminal porque AWS CLI respondio `NoCredentials`. |
-| URL publica | Error menor | Depende de permisos publicos permitidos por AWS Academy. |
+| Web estática con HTML, CSS, JavaScript y recurso visual | `index.html`, `css/styles.css`, `js/app.js`, `assets/s3-devops.svg` | Cumplido |
+| Bucket S3 gestionado por Terraform | `terraform state list` muestra `aws_s3_bucket.bucket_prueba` | Cumplido |
+| VPC de prueba gestionada por Terraform | `terraform state list` muestra `aws_vpc.vpc_prueba` y hay captura en `assets/aws-vpc-evidence.png` | Cumplido |
+| Archivos subidos a Amazon S3 | AWS CLI subió `index.html`, `css/`, `js/` y `assets/`; captura en `assets/aws-s3-evidence.png` | Cumplido |
+| Credenciales fuera del repositorio | `.gitignore` excluye estado local, variables sensibles y documentos temporales | Cumplido |
+| Publicación HTTP con S3 website endpoint | Preparada en Terraform, pero `terraform apply` queda bloqueado por una política de AWS Academy | Bloqueado por laboratorio |
+
+## Comandos ejecutados y resultado
+
+```text
+terraform validate
+Resultado: Success. The configuration is valid.
+
+terraform state list
+Resultado:
+aws_s3_bucket.bucket_prueba
+aws_vpc.vpc_prueba
+
+aws s3 cp .\index.html s3://devops-prueba-david-2026-v2/index.html --region us-east-1
+Resultado: upload correcto.
+
+aws s3 sync .\css s3://devops-prueba-david-2026-v2/css --delete --region us-east-1
+Resultado: upload correcto.
+
+aws s3 sync .\js s3://devops-prueba-david-2026-v2/js --delete --region us-east-1
+Resultado: upload correcto.
+
+aws s3 sync .\assets s3://devops-prueba-david-2026-v2/assets --delete --region us-east-1
+Resultado: upload correcto.
+```
+
+## Log de cambios
+
+- Se eliminó `deploy-site.ps1` y todas sus referencias.
+- Se quitó la validación de tres estados del README y de la interfaz.
+- Se retiraron de Terraform las políticas públicas, la configuración de hosting
+  S3 y los outputs añadidos previamente.
+- Se dejó `main.tf` solo con bucket S3 y VPC.
+- Se revisó la ortografía de la web y del README.
+- Se mantuvo JavaScript separado para cumplir la estructura de la práctica.
+- Se añadió `CODEX.md` con pautas para próximos mensajes.
+- Se reintrodujo la configuración estrictamente necesaria para publicar por HTTP
+  en S3 cuando el usuario pidió desplegar la web por HTTP.
+- Se añadieron capturas recortadas de S3 y VPC como evidencias visuales.
+
+## Validación
+
+- `terraform validate` debe finalizar correctamente.
+- `terraform state list` debe mostrar `aws_s3_bucket.bucket_prueba`.
+- La web mantiene HTML, CSS, JavaScript y un recurso visual.
+- El repositorio no debe contener credenciales ni estado local de Terraform.
+- El endpoint HTTP se obtiene con `terraform output s3_website_endpoint` después
+  de aplicar Terraform con credenciales activas.

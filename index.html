@@ -3,20 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DevOps 00 - Publicacion web en AWS S3</title>
+    <title>DevOps 00 - Publicación web en AWS S3</title>
     <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
     <header class="site-header">
       <div>
-        <p class="eyebrow">Practica DevOps 00</p>
-        <h1>Publicacion web estatica en AWS S3</h1>
+        <p class="eyebrow">Práctica DevOps 00</p>
+        <h1>Publicación web estática en AWS S3</h1>
         <p class="lead">
-          Proyecto creado con Codex, Terraform y AWS CLI para publicar una pagina
-          estatica en un bucket S3 gestionado como infraestructura como codigo.
+          Proyecto creado con Codex, Terraform y AWS CLI para publicar una
+          página estática en un bucket S3 gestionado como infraestructura como
+          código.
         </p>
       </div>
-      <img class="hero-visual" src="assets/s3-devops.svg" alt="Diagrama visual de una web estatica desplegada en Amazon S3">
+      <img class="hero-visual" src="assets/s3-devops.svg" alt="Diagrama visual de una web estática desplegada en Amazon S3">
     </header>
 
     <main>
@@ -29,16 +30,16 @@
         <article>
           <h2>Terraform</h2>
           <p>
-            Terraform permite definir recursos cloud en archivos de codigo.
-            En esta practica se utiliza para declarar y gestionar el bucket S3.
+            Terraform permite definir recursos cloud en archivos de código.
+            En esta práctica se utiliza para declarar y gestionar el bucket S3.
           </p>
         </article>
 
         <article>
           <h2>Amazon S3</h2>
           <p>
-            Amazon S3 almacena objetos como HTML, CSS, JavaScript e imagenes.
-            Con la configuracion adecuada tambien puede servir una web estatica.
+            Amazon S3 almacena objetos como HTML, CSS, JavaScript e imágenes.
+            Con la configuración adecuada también puede servir una web estática.
           </p>
         </article>
 
@@ -46,7 +47,8 @@
           <h2>MCP</h2>
           <p>
             MCP conecta asistentes de IA con herramientas externas. En este
-            flujo Codex trabaja sobre los archivos del proyecto y valida cambios.
+            flujo, Codex trabaja sobre los archivos del proyecto y ayuda a
+            validar los cambios.
           </p>
         </article>
       </section>
@@ -59,23 +61,86 @@
             <strong id="bucket-name">devops-prueba-david-2026-v2</strong>
           </p>
         </div>
-        <button id="check-button" type="button">Validar web</button>
       </section>
 
-      <section class="validation" aria-labelledby="validation-title">
-        <h2 id="validation-title">Validacion final</h2>
-        <ul id="validation-list">
-          <li data-state="pending">Terraform gestiona el bucket S3.</li>
-          <li data-state="pending">La web contiene HTML, CSS, JavaScript y recurso visual.</li>
-          <li data-state="pending">Los archivos se pueden sincronizar con AWS CLI.</li>
-        </ul>
+      <section class="deployment-note" aria-labelledby="deployment-title">
+        <h2 id="deployment-title">Flujo de trabajo</h2>
+        <p>
+          La infraestructura queda definida en Terraform. Los archivos estáticos
+          pueden subirse con AWS CLI cuando las credenciales temporales del
+          Learner Lab estén cargadas en PowerShell.
+        </p>
+        <ol class="workflow-list">
+          <li>Validar la identidad con AWS CLI.</li>
+          <li>Gestionar el bucket S3 y la VPC desde Terraform.</li>
+          <li>Subir HTML, CSS, JavaScript e imágenes al bucket S3.</li>
+          <li>Documentar cualquier bloqueo impuesto por AWS Academy.</li>
+        </ol>
+        <p class="updated-at">
+          Última revisión local: <span id="updated-at">pendiente</span>
+        </p>
+      </section>
+
+      <section class="compliance-section" aria-labelledby="compliance-title">
+        <div class="section-heading">
+          <p class="eyebrow">Cumplimiento</p>
+          <h2 id="compliance-title">Requisitos principales de la práctica</h2>
+        </div>
+
+        <div class="checklist-grid">
+          <article>
+            <span class="status-pill">Hecho</span>
+            <h3>Web estática</h3>
+            <p>HTML, CSS, JavaScript y recursos visuales están separados y listos para S3.</p>
+          </article>
+
+          <article>
+            <span class="status-pill">Hecho</span>
+            <h3>Infraestructura como código</h3>
+            <p>Terraform gestiona el bucket S3 y la VPC de prueba en us-east-1.</p>
+          </article>
+
+          <article>
+            <span class="status-pill">Hecho</span>
+            <h3>Despliegue con AWS CLI</h3>
+            <p>Los archivos del sitio se han subido al bucket y aparecen en la consola de S3.</p>
+          </article>
+
+          <article>
+            <span class="status-pill status-note">Documentado</span>
+            <h3>Restricción AWS Academy</h3>
+            <p>El laboratorio bloquea una lectura de Object Lock durante el apply de Terraform.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="evidence-section" aria-labelledby="evidence-title">
+        <div class="section-heading">
+          <p class="eyebrow">Evidencias</p>
+          <h2 id="evidence-title">Recursos creados y archivos publicados</h2>
+          <p>
+            Las capturas muestran el bucket S3 con los archivos de la web y la
+            VPC de prueba creada en la región us-east-1.
+          </p>
+        </div>
+
+        <div class="evidence-grid">
+          <figure>
+            <img src="assets/aws-s3-evidence.png" alt="Bucket S3 con index.html, css, js y assets subidos">
+            <figcaption>Bucket S3 con los archivos estáticos desplegados.</figcaption>
+          </figure>
+
+          <figure>
+            <img src="assets/aws-vpc-evidence.png" alt="Consola VPC con la VPC devops-vpc-prueba disponible">
+            <figcaption>VPC de prueba disponible en la consola de AWS.</figcaption>
+          </figure>
+        </div>
       </section>
     </main>
 
     <footer>
-      <p>Region AWS: us-east-1 · Infraestructura como codigo con Terraform</p>
+      <p>Región AWS: us-east-1 · Infraestructura como código con Terraform</p>
     </footer>
-
     <script src="js/app.js"></script>
   </body>
 </html>
