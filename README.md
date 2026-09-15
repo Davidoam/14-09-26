@@ -117,6 +117,41 @@ Esto queda documentado como una restricción del entorno AWS Academy, no como un
 error de los archivos de la web. Las capturas recortadas incluidas en `assets/`
 muestran el bucket con los archivos publicados y la VPC de prueba disponible.
 
+## Matriz de cumplimiento
+
+| Requisito | Evidencia | Estado |
+| --- | --- | --- |
+| Web estática con HTML, CSS, JavaScript y recurso visual | `index.html`, `css/styles.css`, `js/app.js`, `assets/s3-devops.svg` | Cumplido |
+| Bucket S3 gestionado por Terraform | `terraform state list` muestra `aws_s3_bucket.bucket_prueba` | Cumplido |
+| VPC de prueba gestionada por Terraform | `terraform state list` muestra `aws_vpc.vpc_prueba` y hay captura en `assets/aws-vpc-evidence.png` | Cumplido |
+| Archivos subidos a Amazon S3 | AWS CLI subió `index.html`, `css/`, `js/` y `assets/`; captura en `assets/aws-s3-evidence.png` | Cumplido |
+| Credenciales fuera del repositorio | `.gitignore` excluye estado local, variables sensibles y documentos temporales | Cumplido |
+| Publicación HTTP con S3 website endpoint | Preparada en Terraform, pero `terraform apply` queda bloqueado por una política de AWS Academy | Bloqueado por laboratorio |
+
+## Comandos ejecutados y resultado
+
+```text
+terraform validate
+Resultado: Success. The configuration is valid.
+
+terraform state list
+Resultado:
+aws_s3_bucket.bucket_prueba
+aws_vpc.vpc_prueba
+
+aws s3 cp .\index.html s3://devops-prueba-david-2026-v2/index.html --region us-east-1
+Resultado: upload correcto.
+
+aws s3 sync .\css s3://devops-prueba-david-2026-v2/css --delete --region us-east-1
+Resultado: upload correcto.
+
+aws s3 sync .\js s3://devops-prueba-david-2026-v2/js --delete --region us-east-1
+Resultado: upload correcto.
+
+aws s3 sync .\assets s3://devops-prueba-david-2026-v2/assets --delete --region us-east-1
+Resultado: upload correcto.
+```
+
 ## Log de cambios
 
 - Se eliminó `deploy-site.ps1` y todas sus referencias.

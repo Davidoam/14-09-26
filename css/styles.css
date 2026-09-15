@@ -78,6 +78,7 @@ main {
 .student-panel,
 .status-panel,
 .deployment-note,
+.compliance-section,
 .evidence-section,
 article {
   background: var(--panel);
@@ -88,6 +89,7 @@ article {
 
 .student-panel,
 .deployment-note,
+.compliance-section,
 .evidence-section {
   padding: 24px;
 }
@@ -113,6 +115,7 @@ article {
 article p,
 .status-panel p,
 .deployment-note p,
+.compliance-section p,
 .evidence-section p,
 footer p {
   color: var(--muted);
@@ -131,6 +134,57 @@ footer p {
   align-items: center;
   margin-bottom: 20px;
   padding: 22px 24px;
+}
+
+.workflow-list {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 18px;
+  padding-left: 22px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.workflow-list li::marker {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.compliance-section {
+  margin-top: 20px;
+}
+
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.checklist-grid article {
+  box-shadow: none;
+}
+
+h3 {
+  margin: 12px 0 8px;
+  font-size: 1rem;
+}
+
+.status-pill {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0 10px;
+  color: var(--accent-dark);
+  background: #e4f3ef;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.status-note {
+  color: #73510f;
+  background: #fff3d6;
 }
 
 .evidence-section {
@@ -177,6 +231,7 @@ footer {
 @media (max-width: 820px) {
   .site-header,
   .grid,
+  .checklist-grid,
   .evidence-grid {
     grid-template-columns: 1fr;
   }

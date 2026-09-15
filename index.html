@@ -70,9 +70,48 @@
           pueden subirse con AWS CLI cuando las credenciales temporales del
           Learner Lab estén cargadas en PowerShell.
         </p>
+        <ol class="workflow-list">
+          <li>Validar la identidad con AWS CLI.</li>
+          <li>Gestionar el bucket S3 y la VPC desde Terraform.</li>
+          <li>Subir HTML, CSS, JavaScript e imágenes al bucket S3.</li>
+          <li>Documentar cualquier bloqueo impuesto por AWS Academy.</li>
+        </ol>
         <p class="updated-at">
           Última revisión local: <span id="updated-at">pendiente</span>
         </p>
+      </section>
+
+      <section class="compliance-section" aria-labelledby="compliance-title">
+        <div class="section-heading">
+          <p class="eyebrow">Cumplimiento</p>
+          <h2 id="compliance-title">Requisitos principales de la práctica</h2>
+        </div>
+
+        <div class="checklist-grid">
+          <article>
+            <span class="status-pill">Hecho</span>
+            <h3>Web estática</h3>
+            <p>HTML, CSS, JavaScript y recursos visuales están separados y listos para S3.</p>
+          </article>
+
+          <article>
+            <span class="status-pill">Hecho</span>
+            <h3>Infraestructura como código</h3>
+            <p>Terraform gestiona el bucket S3 y la VPC de prueba en us-east-1.</p>
+          </article>
+
+          <article>
+            <span class="status-pill">Hecho</span>
+            <h3>Despliegue con AWS CLI</h3>
+            <p>Los archivos del sitio se han subido al bucket y aparecen en la consola de S3.</p>
+          </article>
+
+          <article>
+            <span class="status-pill status-note">Documentado</span>
+            <h3>Restricción AWS Academy</h3>
+            <p>El laboratorio bloquea una lectura de Object Lock durante el apply de Terraform.</p>
+          </article>
+        </div>
       </section>
 
       <section class="evidence-section" aria-labelledby="evidence-title">
