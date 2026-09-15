@@ -7,9 +7,6 @@
   --accent: #0d7a75;
   --accent-dark: #075651;
   --line: #d8ded8;
-  --warning: #b7791f;
-  --danger: #b42318;
-  --success: #1f7a3f;
 }
 
 * {
@@ -80,7 +77,7 @@ main {
 
 .student-panel,
 .status-panel,
-.validation,
+.deployment-note,
 article {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -89,7 +86,7 @@ article {
 }
 
 .student-panel,
-.validation {
+.deployment-note {
   padding: 24px;
 }
 
@@ -113,10 +110,15 @@ article {
 
 article p,
 .status-panel p,
-.validation li,
+.deployment-note p,
 footer p {
   color: var(--muted);
   line-height: 1.58;
+}
+
+.updated-at {
+  margin-bottom: 0;
+  font-size: 0.95rem;
 }
 
 .status-panel {
@@ -126,59 +128,6 @@ footer p {
   align-items: center;
   margin-bottom: 20px;
   padding: 22px 24px;
-}
-
-button {
-  min-width: 132px;
-  min-height: 44px;
-  border: 0;
-  border-radius: 8px;
-  color: #ffffff;
-  background: var(--accent);
-  font-weight: 700;
-  cursor: pointer;
-}
-
-button:hover,
-button:focus-visible {
-  background: var(--accent-dark);
-}
-
-.validation ul {
-  display: grid;
-  gap: 10px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.validation li {
-  position: relative;
-  padding: 12px 14px 12px 40px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #fbfcfa;
-}
-
-.validation li::before {
-  position: absolute;
-  left: 14px;
-  font-weight: 700;
-}
-
-.validation li[data-state="ok"]::before {
-  content: "OK";
-  color: var(--success);
-}
-
-.validation li[data-state="minor"]::before {
-  content: "!";
-  color: var(--warning);
-}
-
-.validation li[data-state="major"]::before {
-  content: "X";
-  color: var(--danger);
 }
 
 footer {
@@ -199,9 +148,5 @@ footer {
   .status-panel {
     align-items: stretch;
     flex-direction: column;
-  }
-
-  button {
-    width: 100%;
   }
 }
