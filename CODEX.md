@@ -10,9 +10,10 @@ mínima definida en Terraform.
 - Interpretar las menciones a Claude o Gemini de la práctica como Codex.
 - No guardar credenciales AWS, tokens, claves privadas ni variables de entorno
   en archivos del repositorio.
-- Mantener `main.tf` simple: proveedor AWS, bucket S3 y VPC de prueba.
-- No añadir políticas públicas, configuración de hosting ni recursos extra salvo
-  que el usuario lo pida expresamente.
+- Mantener `main.tf` enfocado: proveedor AWS, bucket S3, hosting web S3, política
+  pública mínima para lectura de objetos y VPC de prueba.
+- No añadir recursos extra fuera del despliegue HTTP salvo que el usuario lo pida
+  expresamente.
 - Mantener el estado local de Terraform fuera de Git.
 - Revisar ortografía, legibilidad y presentación visual antes de entregar
   cambios.
@@ -30,10 +31,12 @@ Para subir la web a S3, usar AWS CLI solo cuando las credenciales temporales del
 Learner Lab estén cargadas en la terminal:
 
 ```powershell
+terraform apply -auto-approve
 aws s3 cp .\index.html s3://devops-prueba-david-2026-v2/index.html --region us-east-1
 aws s3 sync .\css s3://devops-prueba-david-2026-v2/css --delete --region us-east-1
 aws s3 sync .\js s3://devops-prueba-david-2026-v2/js --delete --region us-east-1
 aws s3 sync .\assets s3://devops-prueba-david-2026-v2/assets --delete --region us-east-1
+terraform output s3_website_endpoint
 ```
 
 ## Validación esperada
