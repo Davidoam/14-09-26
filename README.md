@@ -23,6 +23,7 @@ AWS CLI.
 |   +-- app.js
 +-- assets/
 |   +-- s3-devops.svg
++-- deploy-site.ps1
 +-- main.tf
 +-- README.md
 ```
@@ -56,6 +57,12 @@ El bucket debe aparecer en el estado:
 aws_s3_bucket.bucket_prueba
 ```
 
+Terraform tambien declara:
+
+- `aws_s3_bucket_website_configuration.web_prueba`
+- `aws_s3_bucket_public_access_block.web_prueba`
+- `aws_s3_bucket_policy.web_public_read`
+
 ## AWS CLI
 
 Antes de desplegar:
@@ -64,7 +71,7 @@ Antes de desplegar:
 aws sts get-caller-identity --region us-east-1
 ```
 
-Resultado observado durante esta validacion:
+Resultado observado durante la validacion del 15/09/2026:
 
 ```text
 NoCredentials: Unable to locate credentials
@@ -73,17 +80,15 @@ NoCredentials: Unable to locate credentials
 Esto indica que las credenciales temporales del Learner Lab no estaban cargadas
 en la terminal en el momento de la comprobacion.
 
-Despliegue de los archivos estaticos:
+Despliegue recomendado de los archivos estaticos:
 
 ```powershell
-aws s3 sync . s3://devops-prueba-david-2026-v2 `
-  --exclude ".terraform/*" `
-  --exclude "terraform.tfstate*" `
-  --exclude ".terraform.lock.hcl" `
-  --exclude "main.tf" `
-  --exclude "README.md" `
-  --region us-east-1
+.\deploy-site.ps1
 ```
+
+El script valida la identidad AWS, valida Terraform, aplica la infraestructura y
+sube solo `index.html`, `css/`, `js/` y `assets/`. No sube `.git/`, `.terraform/`,
+`terraform.tfstate`, credenciales, README ni archivos internos.
 
 Comprobacion de archivos:
 
@@ -116,6 +121,7 @@ documentar como restriccion del Learner Lab.
 | --- | --- | --- |
 | Bucket S3 gestionado por Terraform | Comprobado | `terraform state list` muestra `aws_s3_bucket.bucket_prueba`. |
 | Proyecto web con HTML, CSS, JS y recurso visual | Comprobado | Existen `index.html`, `css/styles.css`, `js/app.js` y `assets/s3-devops.svg`. |
-| Hosting S3 declarado en Terraform | Comprobado | `main.tf` incluye `aws_s3_bucket_website_configuration`. |
-| Despliegue con AWS CLI | Error menor | No se pudo ejecutar desde esta terminal porque AWS CLI respondio `NoCredentials`. |
-| URL publica | Error menor | Depende de permisos publicos permitidos por AWS Academy. |
+| Hosting S3 declarado en Terraform | Comprobado | `main.tf` incluye `aws_s3_bucket_website_configuration`. Falta aplicarlo con credenciales activas. |
+| Permisos publicos declarados en Terraform | Comprobado | `main.tf` incluye `aws_s3_bucket_public_access_block` y `aws_s3_bucket_policy`. AWS Academy puede bloquear su aplicacion. |
+| Despliegue con AWS CLI | Error menor | Se corrigio el despliegue usando `deploy-site.ps1`, que se detiene si no hay credenciales. En esta terminal AWS CLI respondio `NoCredentials`. |
+| URL publica | Error menor | Depende de ejecutar `terraform apply`, subir archivos y que AWS Academy permita acceso publico. |

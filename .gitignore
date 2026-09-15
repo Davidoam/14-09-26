@@ -36,3 +36,6 @@ Desktop.ini
 
 # Local logs
 *.log
+
+# Attached practice documents copied locally for reading
+*.docx
